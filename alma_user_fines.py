@@ -13,7 +13,7 @@ headers = {
 
 # Step 1: Fetch users from Alma API (read-only)
 def get_users():
-    url = "{}/users".format(BASE_URL)  # Using .format() to create the URL
+    url = "{}/users".format(BASE_URL)  # Ensure the correct URL is being used
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         return response.json().get('user', [])
@@ -23,7 +23,7 @@ def get_users():
 
 # Step 2: Fetch loans for a user (read-only)
 def get_loans(user_id):
-    url = "{}/users/{}/loans".format(BASE_URL, user_id)  # Using .format() to create the URL
+    url = "{}/users/{}/loans".format(BASE_URL, user_id)  # Correct URL with v1
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         return response.json().get('loan', [])
@@ -33,10 +33,10 @@ def get_loans(user_id):
 
 # Step 3: Fetch fines for a user (read-only)
 def get_fines(user_id):
-    url = "{}/users/{}/fines".format(BASE_URL, user_id)  # Using .format() to create the URL
+    url = "{}/users/{}/fees".format(BASE_URL, user_id)  # Correct URL with v1
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
-        return response.json().get('fine', [])
+        return response.json().get('fee', [])  # Correct key for fees/fines
     else:
         print("Error fetching fines for user {}: {}".format(user_id, response.status_code))  # .format() used
         return []
