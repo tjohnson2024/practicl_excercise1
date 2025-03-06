@@ -5,13 +5,13 @@ import json
 API_KEY = 'l8xx17c816b10f034a3da5cfd0e0424efd33'  # Replace with your actual Alma API key
 BASE_URL = 'https://api-eu.hosted.exlibrisgroup.com/almaws/v1'
 
-# Headers for API requests
+
 headers = {
     'Authorization': 'apikey {}'.format(API_KEY),  # Using .format() for compatibility with Python 2.7
     'Content-Type': 'application/json'
 }
 
-# Step 1: Fetch users from Alma API (read-only)
+
 def get_users():
     url = "{}/users".format(BASE_URL)  # Ensure the correct URL is being used
     response = requests.get(url, headers=headers)
@@ -21,7 +21,7 @@ def get_users():
         print("Error fetching users: {}".format(response.status_code))  # .format() used
         return []
 
-# Step 2: Fetch loans for a user (read-only)
+
 def get_loans(user_id):
     url = "{}/users/{}/loans".format(BASE_URL, user_id)  # Correct URL with v1
     response = requests.get(url, headers=headers)
@@ -31,7 +31,7 @@ def get_loans(user_id):
         print("Error fetching loans for user {}: {}".format(user_id, response.status_code))  # .format() used
         return []
 
-# Step 3: Fetch fines for a user (read-only)
+
 def get_fines(user_id):
     url = "{}/users/{}/fees".format(BASE_URL, user_id)  # Correct URL with v1
     response = requests.get(url, headers=headers)
@@ -41,7 +41,7 @@ def get_fines(user_id):
         print("Error fetching fines for user {}: {}".format(user_id, response.status_code))  # .format() used
         return []
 
-# Step 4: Generate HTML output
+
 def generate_html(users_data):
     html_content = """
     <html>
@@ -72,12 +72,12 @@ def generate_html(users_data):
     </html>
     """
 
-    # Save the HTML content to a file
+
     with open("user_fines_and_loans.html", "w") as file:
         file.write(html_content)
     print("HTML file has been generated: user_fines_and_loans.html")
 
-# Main logic
+
 def main():
     users = get_users()  # Step 1: Fetch users
     users_data = []
