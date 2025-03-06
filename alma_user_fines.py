@@ -77,3 +77,34 @@ def generate_html(users_data):
         file.write(html_content)
     print("HTML file has been generated: user_fines_and_loans.html")
 
+# Main logic
+def main():
+    users = get_users()  # Step 1: Fetch users
+    users_data = []
+
+    # Loop through each user to fetch loans and fines
+    for user in users:
+        user_id = user['user_id']
+        loans = get_loans(user_id)  # Step 2: Get loans
+        fines = get_fines(user_id)  # Step 3: Get fines
+
+        # Calculate total fines and loan count
+        total_fines = sum(float(fine['amount']) for fine in fines) if fines else 0
+        loan_count = len(loans)
+
+        # Store user data for sorting and display
+        users_data.append({
+            'name': "{} {}".format(user['first_name'], user['last_name']),  # .format() used for compatibility
+            'total_fines': total_fines,
+            'loan_count': loan_count
+        })
+
+    # Sort users by total fines in descending order
+    users_data.sort(key=lambda x: x['total_fines'], reverse=True)
+
+    # Step 4: Generate HTML output
+    generate_html(users_data)
+
+# Run the main function
+if __name__ == "__main__":
+    main()
